@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Converter - FingerprintConvert</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="dark-theme">
+    <header>
+        <nav class="container">
+            <div class="logo">Fingerprint<span>Convert</span></div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/audio-converter">Audio</a></li>
+                <li><a href="/video-converter">Video</a></li>
+                <li><a href="/image-converter" class="active">Image</a></li>
+                <li><a href="/pdf-converter">PDF</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="converter-section">
+            <h1>Image Converter</h1>
+            <p>Convert images to JPG, PNG, WEBP and more.</p>
+            
+            <div class="upload-container" id="drop-zone">
+                <input type="file" id="file-input" hidden accept="image/*">
+                <div class="upload-content">
+                    <div class="icon">🖼️</div>
+                    <p>Drag & Drop your image file here or <span class="browse-btn">Browse</span></p>
+                </div>
+            </div>
+
+            <div id="file-info" class="hidden">
+                <p>Selected: <span id="filename"></span></p>
+                <div class="format-select">
+                    <label>Convert to:</label>
+                    <select id="target-format">
+                        <option value="png">PNG</option>
+                        <option value="jpg">JPG</option>
+                        <option value="webp">WEBP</option>
+                        <option value="gif">GIF</option>
+                    </select>
+                </div>
+                <button id="convert-btn" class="primary-btn">Convert Now</button>
+            </div>
+
+            <div id="progress-container" class="hidden">
+                <div class="progress-bar">
+                    <div id="progress-fill"></div>
+                </div>
+                <p id="status-text">Processing...</p>
+            </div>
+
+            <div id="download-container" class="hidden">
+                <h3>Conversion Complete!</h3>
+                <a id="download-link" href="#" class="download-btn" download>Download File</a>
+            </div>
+        </section>
+    </main>
+
+    <script src="/js/main.js"></script>
+    <script>
+        setupConverter('image');
+    </script>
+</body>
+</html>
