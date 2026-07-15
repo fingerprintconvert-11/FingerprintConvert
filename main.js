@@ -83,9 +83,11 @@ function setupConverter(type) {
                     progressContainer.classList.add('hidden');
                     downloadContainer.classList.remove('hidden');
                     downloadLink.href = result.downloadUrl;
+                    downloadLink.style.display = 'inline-block';
                 }, 500);
             } else {
-                alert(result.error || 'Conversion failed');
+                console.error('Server Error:', result.error);
+                alert('Error: ' + (result.error || 'Conversion failed. Please ensure you uploaded a valid file.'));
                 progressContainer.classList.add('hidden');
                 fileInfo.classList.remove('hidden');
             }

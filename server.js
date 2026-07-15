@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/converted', express.static(path.join(__dirname, 'converted')));
+app.use(express.static('public'));
+app.use('/converted', express.static('converted'));
 
 // Ensure directories exist
 const dirs = ['uploads', 'converted'];
@@ -58,12 +58,13 @@ app.post('/api/convert/audio', upload.single('file'), (req, res) => {
     ffmpeg(req.file.path)
         .toFormat(targetFormat)
         .on('end', () => {
-            fs.unlinkSync(req.file.path); // Clean up original
+            if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
             res.json({ downloadUrl: `/converted/${outputFilename}` });
         })
         .on('error', (err) => {
-            console.error(err);
-            res.status(500).json({ error: 'Conversion failed' });
+            console.error('FFmpeg Error:', err.message);
+            if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+            res.status(500).json({ error: 'Conversion failed: ' + err.message });
         })
         .save(outputPath);
 });
@@ -78,12 +79,13 @@ app.post('/api/convert/video', upload.single('file'), (req, res) => {
     ffmpeg(req.file.path)
         .toFormat(targetFormat)
         .on('end', () => {
-            fs.unlinkSync(req.file.path);
+            if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
             res.json({ downloadUrl: `/converted/${outputFilename}` });
         })
         .on('error', (err) => {
-            console.error(err);
-            res.status(500).json({ error: 'Conversion failed' });
+            console.error('FFmpeg Error:', err.message);
+            if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+            res.status(500).json({ error: 'Conversion failed: ' + err.message });
         })
         .save(outputPath);
 });
